@@ -1,0 +1,658 @@
+{
+  "twin_versions": [
+    {
+      "twin_version_id": "b3e93609-1f8b-4628-b34e-197581450de3",
+      "attributes": [
+        {
+          "meta_data_name": "equipment_id",
+          "meta_data_format": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "meta_data_format_prompt": "Extract equipment_id in the following format."
+        },
+        {
+          "meta_data_name": "equipment_name",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 100,
+            "enum": ["WeatherMaster", "Compressor", "Generator"],
+            "synonym_mapping": {                           
+              "AC, air conditioner, cooler": "WeatherMaster"
+            }
+          },
+          "meta_data_format_prompt": "Extract equipment_name in the following format."
+        },
+        {
+          "meta_data_name": "equipment_location",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1
+          },
+          "meta_data_format_prompt": "Extract equipment_location in the following format."
+        },
+        {
+          "meta_data_name": "document_type",
+          "meta_data_format": {
+            "type": "string",
+            "enum": ["manual", "report", "specification", "service agreement", "purchase order", "technical proposal"],
+            "minLength": 1
+          },
+          "meta_data_format_prompt": "Extract document_type in the following format."
+        },
+        {
+          "meta_data_name": "sensor_name",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "enum": ["temperature sensor", "humidity sensor", "refrigerant pressure sensor"]
+          },
+          "meta_data_format_prompt": "Extract sensor_name in the following format."
+        }
+      ]
+    },
+    {
+      "twin_version_id": "2sfc4ea2-b0f4-4ea1-86fd-660052f27sdf",
+      "attributes": [
+        {
+          "meta_data_name": "site_id",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 10
+          },
+          "meta_data_format_prompt": "Extract site_id in the following format."
+        },
+        {
+          "meta_data_name": "site_name",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "meta_data_format_prompt": "Extract site_name in the following format."
+        },
+        {
+          "meta_data_name": "site_owner",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "meta_data_format_prompt": "Extract site_owner in the following format."
+        },
+        {
+          "meta_data_name": "client_name",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "meta_data_format_prompt": "Extract client_name in the following format."
+        },
+        {
+          "meta_data_name": "site_latitude",
+          "meta_data_format": {
+            "type": "number",
+            "minimum": -90,
+            "maximum": 90
+          },
+          "meta_data_format_prompt": "Extract site_latitude in the following format."
+        },
+        {
+          "meta_data_name": "site_longitude",
+          "meta_data_format": {
+            "type": "number",
+            "minimum": -180,
+            "maximum": 180
+          },
+          "meta_data_format_prompt": "Extract site_longitude in the following format."
+        },
+        {
+          "meta_data_name": "structure_height_m",
+          "meta_data_format": {
+            "type": "number",
+            "minimum": 0
+          },
+          "meta_data_format_prompt": "Extract structure_height_m in the following format."
+        },
+        {
+          "meta_data_name": "site_location",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 200
+          },
+          "meta_data_format_prompt": "Extract site_location in the following format."
+        }
+      ]
+    },
+    {
+      
+      "twin_version_id": "b7586e58-9a07-47f6-8049-43d6d6f2c5e5",
+      "attributes": [
+        {
+          "meta_data_name": "document_type",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "enum": ["RFI", "Submittal", "document"]
+          },
+          "meta_data_format_prompt": "Extract document_type in the following format."
+        },
+        {
+          "meta_data_name": "component",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "enumExamples": ["wall", "camera", "Floor", "floor component 1905647", "wall component 12345"]
+          },
+          "meta_data_format_prompt": "Extract the component exactly as it appears in the text, including all words and numbers. For example, if the component is 'floor component 1905647,' extract the entire string 'floor component 1905647' and not just the number."
+        },
+        {
+          "meta_data_name": "issue_date",
+          "meta_data_format": {
+            "type": "date",
+            "maxLength": 25,
+            "examples" : "Aug 22, 2023 , June 22, 2023"
+          },
+          "meta_data_format_prompt": "Extract issue_date in the following format. If the query contain a different date format, convert it into the format in the example."
+        },
+        {
+          "meta_data_name": "status",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 30,
+            "enum": ["open", "closed"]
+          },
+          "meta_data_format_prompt": "Extract status in the following format."
+        }
+       
+      ]
+    },
+    {
+      
+      "twin_version_id": "ed02afb1-ac52-4275-a1dd-c072487d9d16",
+     "attributes": [
+        {
+          "meta_data_name": "document_type",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "enum": ["rfi", "submittal", "document"]
+          },
+          "meta_data_format_prompt": "Extract document_type in the following format."
+        },
+        {
+          "meta_data_name": "component",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "enumExamples": ["wall", "camera", "Floor", "floor component 1905647", "wall component 12345"]
+          },
+          "meta_data_format_prompt": "Extract the component exactly as it appears in the text, including all words and numbers. For example, if the component is 'floor component 1905647,' extract the entire string 'floor component 1905647' and not just the number."
+        },
+        {
+          "meta_data_name": "issue_date",
+          "meta_data_format": {
+            "type": "date",
+            "maxLength": 25,
+            "examples" : "Aug 22, 2023 , June 22, 2023"
+          },
+          "meta_data_format_prompt": "Extract issue_date in the following format. If the query contain a different date format, convert it into the format in the example."
+        },
+        {
+          "meta_data_name": "status",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 30,
+            "enum": ["open", "closed"]
+          },
+          "meta_data_format_prompt": "Extract status in the following format."
+        }
+       
+      ]
+    },
+    {
+      
+      "twin_version_id": "431e6077-4ffd-45ab-ae76-56260dd50dab",
+     "attributes": [
+        {
+          "meta_data_name": "document_type",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "enum": ["rfi", "submittal", "document"]
+          },
+          "meta_data_format_prompt": "Extract document_type in the following format."
+        },
+        {
+          "meta_data_name": "component",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "enumExamples": ["wall", "camera", "Floor", "floor component 1905647", "wall component 12345"]
+          },
+          "meta_data_format_prompt": "Extract the component exactly as it appears in the text, including all words and numbers. For example, if the component is 'floor component 1905647,' extract the entire string 'floor component 1905647' and not just the number."
+        },
+        {
+          "meta_data_name": "issue_date",
+          "meta_data_format": {
+            "type": "date",
+            "maxLength": 25,
+            "examples" : "Aug 22, 2023 , June 22, 2023"
+          },
+          "meta_data_format_prompt": "Extract issue_date in the following format. If the query contain a different date format, convert it into the format in the example."
+        },
+        {
+          "meta_data_name": "status",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 30,
+            "enum": ["open", "closed"]
+          },
+          "meta_data_format_prompt": "Extract status in the following format."
+        }
+       
+      ]
+    },
+    {
+      
+      "twin_version_id": "9332e77d-fb20-4221-8cf2-9a2c8ef80e22",
+      "attributes": [
+        {
+          "meta_data_name": "document_type",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "enum": ["rfi", "submittal", "document"]
+          },
+          "meta_data_format_prompt": "Extract document_type in the following format."
+        },
+        {
+          "meta_data_name": "manager",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 30
+          },
+          "meta_data_format_prompt": "Extract manager in the following format. Manager can be a submittal manager or rfi manager."
+        },
+        {
+          "meta_data_name": "issue_date",
+          "meta_data_format": {
+            "type": "date",
+            "maxLength": 25,
+            "examples" : "Aug 22, 2023 , June 22, 2023"
+          },
+          "meta_data_format_prompt": "Extract issue_date in the following format. If the query contain a different date format, convert it into the format in the example."
+        },
+        {
+          "meta_data_name": "status",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 30,
+            "enum": ["open", "closed"]
+          },
+          "meta_data_format_prompt": "Extract status in the following format."
+        }
+       
+      ]
+    },
+    {
+      
+      "twin_version_id": "ff87718d-63d9-4ceb-bd82-c2da9c8eca0a",
+     
+     "attributes": [
+        {
+          "meta_data_name": "document_type",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "enum": ["rfi", "submittal", "document"]
+          },
+          "meta_data_format_prompt": "Extract document_type in the following format."
+        },
+        {
+          "meta_data_name": "component",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "enumExamples": ["wall", "camera", "Floor", "floor component 1905647", "wall component 12345"]
+          },
+          "meta_data_format_prompt": "Extract the component exactly as it appears in the text, including all words and numbers. For example, if the component is 'floor component 1905647,' extract the entire string 'floor component 1905647' and not just the number."
+        },
+        {
+          "meta_data_name": "issue_date",
+          "meta_data_format": {
+            "type": "date",
+            "maxLength": 25,
+            "examples" : "Aug 22, 2023 , June 22, 2023"
+          },
+          "meta_data_format_prompt": "Extract issue_date in the following format. If the query contain a different date format, convert it into the format in the example."
+        },
+        {
+          "meta_data_name": "status",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 30,
+            "enum": ["open", "closed"]
+          },
+          "meta_data_format_prompt": "Extract status in the following format."
+        }
+       
+      ]
+
+    },
+    {
+      
+      "twin_version_id": "bb748cd5-cf5f-4bd3-80e5-e10965c24841",
+      "attributes": [
+        {
+          "meta_data_name": "document_type",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "enum": ["rfi", "submittal", "document"]
+          },
+          "meta_data_format_prompt": "Extract document_type in the following format."
+        },
+        {
+          "meta_data_name": "component",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "enumExamples": ["wall", "camera", "Floor", "floor component 1905647", "wall component 12345"]
+          },
+          "meta_data_format_prompt": "Extract the component exactly as it appears in the text, including all words and numbers. For example, if the component is 'floor component 1905647,' extract the entire string 'floor component 1905647' and not just the number."
+        },
+        {
+          "meta_data_name": "issue_date",
+          "meta_data_format": {
+            "type": "date",
+            "maxLength": 25,
+            "examples" : "Aug 22, 2023 , June 22, 2023"
+          },
+          "meta_data_format_prompt": "Extract issue_date in the following format. If the query contain a different date format, convert it into the format in the example."
+        },
+        {
+          "meta_data_name": "status",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 30,
+            "enum": ["open", "closed"]
+          },
+          "meta_data_format_prompt": "Extract status in the following format."
+        }
+       
+      ]
+    },
+    {
+      
+      "twin_version_id": "bb9da2c6-4a1d-4efa-8c0f-222b44bbf136",
+    "attributes": [
+        {
+          "meta_data_name": "document_type",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "enum": ["rfi", "submittal", "document"]
+          },
+          "meta_data_format_prompt": "Extract document_type in the following format."
+        },
+        {
+          "meta_data_name": "component",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "enumExamples": ["wall", "camera", "Floor", "floor component 1905647", "wall component 12345"]
+          },
+          "meta_data_format_prompt": "Extract the component exactly as it appears in the text, including all words and numbers. For example, if the component is 'floor component 1905647,' extract the entire string 'floor component 1905647' and not just the number."
+        },
+        {
+          "meta_data_name": "issue_date",
+          "meta_data_format": {
+            "type": "date",
+            "maxLength": 25,
+            "examples" : "Aug 22, 2023 , June 22, 2023"
+          },
+          "meta_data_format_prompt": "Extract issue_date in the following format. If the query contain a different date format, convert it into the format in the example."
+        },
+        {
+          "meta_data_name": "status",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 30,
+            "enum": ["open", "closed"]
+          },
+          "meta_data_format_prompt": "Extract status in the following format."
+        }
+       
+      ]
+    },
+    {
+      
+      "twin_version_id": "54469e4a-2dae-4892-b72e-2a51e3588538",
+      "attributes": [
+        {
+          "meta_data_name": "document_type",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "enum": ["rfi", "submittal", "document"]
+          },
+          "meta_data_format_prompt": "Extract document_type in the following format. The document types are list down in enum."
+        },
+        {
+          "meta_data_name": "manager",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 30
+          },
+          "meta_data_format_prompt": "Extract manager in the following format. Manager can be a submittal manager or rfi manager."
+        },
+        {
+          "meta_data_name": "issue_date",
+          "meta_data_format": {
+            "type": "date",
+            "maxLength": 25,
+            "examples" : "Aug 22, 2023 , June 22, 2023"
+          },
+          "meta_data_format_prompt": "Extract issue_date in the following format. If the query contain a different date format, convert it into the format in the example."
+        },
+        {
+          "meta_data_name": "status",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 30,
+            "enum": ["open", "closed"]
+          },
+          "meta_data_format_prompt": "Extract status in the following format."
+        }
+       
+      ]
+    },
+    {
+      
+      "twin_version_id": "50f54285-1daa-4c09-86c7-ba720fff4448",
+     "attributes": [
+        {
+          "meta_data_name": "document_type",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "enum": ["rfi", "submittal", "document"]
+          },
+          "meta_data_format_prompt": "Extract document_type in the following format."
+        },
+        {
+          "meta_data_name": "component",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "enumExamples": ["wall", "camera", "Floor", "floor component 1905647", "wall component 12345"]
+          },
+          "meta_data_format_prompt": "Extract the component exactly as it appears in the text, including all words and numbers. For example, if the component is 'floor component 1905647,' extract the entire string 'floor component 1905647' and not just the number."
+        },
+        {
+          "meta_data_name": "issue_date",
+          "meta_data_format": {
+            "type": "date",
+            "maxLength": 25,
+            "examples" : "Aug 22, 2023 , June 22, 2023"
+          },
+          "meta_data_format_prompt": "Extract issue_date in the following format. If the query contain a different date format, convert it into the format in the example."
+        },
+        {
+          "meta_data_name": "status",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 30,
+            "enum": ["open", "closed"]
+          },
+          "meta_data_format_prompt": "Extract status in the following format."
+        }
+       
+      ]
+    },
+    {
+      
+      "twin_version_id": "7979f72b-683d-4a17-85a2-c2b2a07b991d",
+     
+      "attributes": [
+        {
+          "meta_data_name": "document_type",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "enum": ["rfi", "submittal", "document"]
+          },
+          "meta_data_format_prompt": "Extract document_type in the following format."
+        },
+        {
+          "meta_data_name": "manager",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 30,
+            "minLength": 1
+          },
+          "meta_data_format_prompt": "Extract manager in the following format. Manager can be a submittal manager or rfi manager."
+        },
+        {
+          "meta_data_name": "issue_date",
+          "meta_data_format": {
+            "type": "date",
+            "maxLength": 25,
+            "examples" : "Aug 22, 2023 , June 22, 2023"
+          },
+          "meta_data_format_prompt": "Extract issue_date in the following format. If the query contain a different date format, convert it into the format in the example."
+        },
+        {
+          "meta_data_name": "status",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 30,
+            "enum": ["open", "closed"]
+          },
+          "meta_data_format_prompt": "Extract status in the following format."
+        }
+       
+      ]
+
+    }, {
+      
+      "twin_version_id": "fcc3e25a-98c3-499d-821b-d42b1faad06b",
+     
+      "attributes": [
+        {
+          "meta_data_name": "document_type",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "enum": ["rfi", "submittal", "document"]
+          },
+          "meta_data_format_prompt": "Extract document_type in the following format."
+        },
+        {
+          "meta_data_name": "manager",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 30,
+            "minLength": 1
+          },
+          "meta_data_format_prompt": "Extract manager in the following format. Manager can be a submittal manager or rfi manager."
+        },
+        {
+          "meta_data_name": "issue_date",
+          "meta_data_format": {
+            "type": "date",
+            "maxLength": 25,
+            "examples" : "Aug 22, 2023 , June 22, 2023"
+          },
+          "meta_data_format_prompt": "Extract issue_date in the following format. If the query contain a different date format, convert it into the format in the example."
+        },
+        {
+          "meta_data_name": "status",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 30,
+            "enum": ["open", "closed"]
+          },
+          "meta_data_format_prompt": "Extract status in the following format."
+        }
+       
+      ]
+
+    }, {
+      
+      "twin_version_id": "2f9a76d2-f93d-45fb-912e-512b80894720",
+     
+      "attributes": [
+        {
+          "meta_data_name": "document_type",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "enum": ["rfi", "submittal", "document"]
+          },
+          "meta_data_format_prompt": "Extract document_type in the following format."
+        },
+        {
+          "meta_data_name": "issue_date",
+          "meta_data_format": {
+            "type": "date",
+            "maxLength": 25,
+            "examples" : "Aug 22, 2023 , June 22, 2023"
+          },
+          "meta_data_format_prompt": "Extract issue_date in the following format. If the query contain a different date format, convert it into the format in the example."
+        },
+        {
+          "meta_data_name": "status",
+          "meta_data_format": {
+            "type": "string",
+            "maxLength": 30,
+            "enum": ["open", "closed"]
+          },
+          "meta_data_format_prompt": "Extract status in the following format."
+        }
+       
+      ]
+
+    }
+  ]
+}

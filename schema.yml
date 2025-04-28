@@ -1,0 +1,203 @@
+openapi: 3.0.3
+info:
+  title: Chatbot API
+  version: 1.0.0
+  description: API documentation for the chatbot system.
+paths:
+  /core/api/document-response/:
+    post:
+      operationId: core_api_document_response_create
+      description: This endpoint accepts a user query regarding a specific twin scenario
+        and returns a comprehensive response based on the query. The system generates
+        embeddings for the query and retrieves relevant information before sending
+        it to the OpenAI GPT-4 model to generate a complete answer.
+      summary: Document Response API
+      tags:
+      - core
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: The user query for which the search is being performed.
+                twin_version_id:
+                  type: string
+                  description: The version identifier for the twin or digital twin
+                    model.
+              required:
+              - query
+              - twin_version_id
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                application/json:
+                  type: object
+                  properties:
+                    openai_response:
+                      type: object
+                      properties:
+                        content:
+                          type: string
+                          description: The response content from OpenAI GPT-4 model.
+          description: Successful response with the OpenAI model answer.
+        '400':
+          content:
+            application/json:
+              schema:
+                application/json:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+                      example: Query is required.
+          description: Bad Request - Query is required.
+        '500':
+          content:
+            application/json:
+              schema:
+                application/json:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+                      example: 'Error: Some error message'
+          description: Internal Server Error - An error occurred while processing
+            the request.
+  /core/api/get-documents-list/:
+    get:
+      operationId: core_api_get_documents_list_retrieve
+      description: Retrieve a list of all available documents for a given twin_id.
+      summary: Get Documents List API
+      parameters:
+      - in: query
+        name: twin_id
+        schema:
+          type: string
+        description: The unique identifier for the twin.
+        required: true
+      tags:
+      - core
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                application/json:
+                  type: object
+                  properties:
+                    documents:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          pdf_id:
+                            type: string
+                          pdf:
+                            type: string
+          description: A list of all available documents
+        '400':
+          content:
+            application/json:
+              schema:
+                application/json:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+          description: Bad Request - twin_id is required
+        '500':
+          content:
+            application/json:
+              schema:
+                application/json:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+          description: Internal Server Error
+  /core/api/load-chat-history/:
+    get:
+      operationId: core_api_load_chat_history_retrieve
+      description: Retrieve the chat history for a given twin_id with pagination support
+        using an offset.
+      summary: Load Chat History API
+      parameters:
+      - in: query
+        name: offset
+        schema:
+          type: integer
+        description: The number of messages to skip for pagination (default is 0).
+      - in: query
+        name: twin_id
+        schema:
+          type: string
+        description: The unique identifier for the twin.
+        required: true
+      tags:
+      - core
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                application/json:
+                  type: object
+                  properties:
+                    chat_history:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          user_query:
+                            type: string
+                          chatbot_response:
+                            type: string
+                    has_more:
+                      type: boolean
+          description: Chat history retrieved successfully
+        '400':
+          content:
+            application/json:
+              schema:
+                application/json:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+          description: Bad Request - twin_id is required
+        '500':
+          content:
+            application/json:
+              schema:
+                application/json:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+          description: Internal Server Error
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
