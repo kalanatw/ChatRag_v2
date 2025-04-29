@@ -76,6 +76,7 @@ def search_query(query_vector, top_k, query,twin_version_id, metadata):
     else:
         raise ValueError("Error querying the external vector database")
 
+from django.contrib.postgres.search import TrigramSimilarity
 
 def find_similar_previous_query(query, chat_instance_id):
     """
@@ -84,11 +85,18 @@ def find_similar_previous_query(query, chat_instance_id):
     """
     try:
         # Get previous chats for this instance with exact query match
+        normalized_query = query.strip().lower()
         previous_chat = ChatHistory.objects.filter(
             chat_instance_id=chat_instance_id,
             user_query__iexact=query  # Case-insensitive exact match
         ).order_by('-id').first()
         print("Previous chat found:", previous_chat)
+        # previous_chat = ChatHistory.objects.annotate(
+        #     similarity=TrigramSimilarity('user_query', query),
+        # ).filter(
+        #     chat_instance_id=chat_instance_id,
+        #     similarity__gt=0.8  # Adjustable threshold
+        # ).order_by('-similarity', '-id').first()
         
         if previous_chat:
             return True, previous_chat.chatbot_response
@@ -117,6 +125,7 @@ def construct_openai_prompt(query, final_results, twin_version_id="default",chat
         found, prev_response = find_similar_previous_query(query, chat_instance_id)
         if found:
             similar_response = prev_response
+    print("Found similar previous query:", similar_response)
     prompt = get_prompt_template(twin_version_id,query,similar_response).copy()
     
     #print("Prompt template:", prompt)
@@ -160,6 +169,7 @@ def construct_openai_prompt_for_meta_data(twin_version_id, chat_instance_id, que
     
     prompt = [
         {"role": "system", "content": "This is a RAG chatbot using OpenAI to generate responses."},
+        {"role": "system", "content": "Do not mimic any metadata attributes, if there are no metadata keep it as null."},
         {"role": "system", "content": f"This is the current query done by the user: {query}"},
         {"role": "system", "content": f"Here is the most recent conversation history for your reference: {chat_history}"},
         {"role": "system", "content": "You dont need to provide answer for the user query. But instead extract the following metadata from the provided current user query. Provide the response in a JSON Object."},
@@ -310,6 +320,7 @@ def get_valid_prompt(twin_version_id, query, query_vector, chat_instance_id, mod
             total_tokens = sum(item["token_count"] for item in token_counts)
 
         # Pass twin_version_id here as well
+        print("results are:",results)
         openai_prompt = construct_openai_prompt(query, results, twin_version_id,chat_instance_id)
 
         if total_tokens > max_tokens:
@@ -404,10 +415,11 @@ def document_response_api(request):
                 return JsonResponse({'error': 'Query is required'}, status=400)
             
             query_vector = generate_embeddings_for_single_text(query)
-   
+            print("Generated query vector:", query_vector)
+            print_timestamp()
             valid_prompt = get_valid_prompt(twin_version_id, query, query_vector,  chat_instance_id)
             
-            print("Got prompt. Sending to chatgpt")
+            print("Got prompt. Sending to chatgpt:",valid_prompt)
             print_timestamp()
 
             completion = client.chat.completions.create(model="gpt-4o-mini",temperature=1, messages=valid_prompt)
