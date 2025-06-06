@@ -100,7 +100,7 @@ DATABASES = {
         'NAME': 'chatbot',
         'USER': 'admin',
         'PASSWORD': '1234qwer$$',
-        'HOST': '52.21.129.119',
+        'HOST': '65.0.89.142',
         'PORT': '5432'
     }
 }
